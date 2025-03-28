@@ -19,5 +19,11 @@ void Binarni_Radix_Sort(vector<unsigned char>& A) {
 }
 
 int main(int argc, const char* argv[]) {
+    if (argc < 2) {
+        cerr << "Uporaba: " << argv[0] << " <vhodna_datoteka>\n";
+        return 1;
+    }
 
+    cout << "Sortiranje koncano. Rezultat v out.txt\n";
+    return 0;
 }
