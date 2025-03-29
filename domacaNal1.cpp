@@ -6,8 +6,27 @@
 
 using namespace std;
 
+// Branje števil iz datoteke
 bool Branje_Stevil(vector<unsigned char>& vec, const char s[]) {
+    ifstream input(s);
+    int st;
 
+    if (!input.is_open()) {
+        cerr << "Napaka: ne morem odpreti datoteke " << s << endl;
+        return false;
+    }
+
+    while (input >> st) {
+        if (st < 0 || st > 255) {
+            cerr << "Napaka: stevilo " << st << " ni v razponu [0, 255].\n";
+            return false;
+        }
+        vec.push_back(static_cast<unsigned char>(st));
+        while (isspace(input.peek())) input.get();
+    }
+
+    input.close();
+    return true;
 }
 
 // Izpis števil v datoteko out.txt
@@ -39,9 +58,11 @@ int main(int argc, const char* argv[]) {
     }
 
 
+
     // Pretvori v int in izpiši
     vector<int> A_int(A.begin(), A.end());
     Izpis_Stevil(&A_int[0], A_int.size());
+
 
     cout << "Sortiranje koncano. Rezultat v out.txt\n";
     return 0;
