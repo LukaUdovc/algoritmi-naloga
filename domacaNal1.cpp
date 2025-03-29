@@ -11,7 +11,16 @@ bool Branje_Stevil(vector<unsigned char>& vec, const char s[]) {
 }
 
 void Izpis_Stevil(int* polje, unsigned int velikost) {
+    ofstream output("out.txt");
+    if (!output) {
+        cerr << "Napaka: ne morem ustvariti ali pisati v out.txt\n";
+        return;
+    }
 
+    for (unsigned int i = 0; i < velikost; i++)
+        output << polje[i] << ' ';
+    output << endl;
+    output.close();
 }
 
 void Binarni_Radix_Sort(vector<unsigned char>& A) {
