@@ -38,7 +38,7 @@ int main(int argc, const char* argv[]) {
         return 1;
     }
 
-    
+
     // Pretvori v int in izpiši
     vector<int> A_int(A.begin(), A.end());
     Izpis_Stevil(&A_int[0], A_int.size());
