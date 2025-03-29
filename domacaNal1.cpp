@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// Branje števil iz datoteke
 bool Branje_Stevil(vector<unsigned char>& vec, const char s[]) {
     ifstream input(s);
     int st;
@@ -39,6 +40,10 @@ void Binarni_Radix_Sort(vector<unsigned char>& A) {
 int main(int argc, const char* argv[]) {
     if (argc < 2) {
         cerr << "Uporaba: " << argv[0] << " <vhodna_datoteka>\n";
+        return 1;
+    }
+    vector<unsigned char> A;
+    if (!Branje_Stevil(A, argv[1])) {
         return 1;
     }
 
