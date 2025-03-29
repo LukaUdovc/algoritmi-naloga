@@ -10,6 +10,7 @@ bool Branje_Stevil(vector<unsigned char>& vec, const char s[]) {
 
 }
 
+// Izpis števil v datoteko out.txt
 void Izpis_Stevil(int* polje, unsigned int velikost) {
     ofstream output("out.txt");
     if (!output) {
@@ -32,6 +33,15 @@ int main(int argc, const char* argv[]) {
         cerr << "Uporaba: " << argv[0] << " <vhodna_datoteka>\n";
         return 1;
     }
+    vector<unsigned char> A;
+    if (!Branje_Stevil(A, argv[1])) {
+        return 1;
+    }
+
+    
+    // Pretvori v int in izpiši
+    vector<int> A_int(A.begin(), A.end());
+    Izpis_Stevil(&A_int[0], A_int.size());
 
     cout << "Sortiranje koncano. Rezultat v out.txt\n";
     return 0;
