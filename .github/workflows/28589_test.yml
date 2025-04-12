@@ -1,0 +1,62 @@
+name: 28589 - Testiranje C++ kode
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  preveri-teste:
+    name: Preveri prisotnost testne skripte
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kloniraj repozitorij
+        uses: actions/checkout@v3
+
+      - name: Preveri ali obstaja testna skripta
+        run: |
+          if [ -f ./run_tests.sh ]; then
+            echo "Testna skripta najdena."
+          else
+            echo "NAPAKA: run_tests.sh ne obstaja!" > napaka.txt
+            exit 1
+          fi
+
+      - name: Shrani artefakt (napaka.txt)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-check-artifact
+          path: napaka.txt
+
+  izvedi-teste:
+    name: Izvedi teste
+    needs: preveri-teste
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kloniraj repozitorij
+        uses: actions/checkout@v3
+
+      - name: Prenesi artefakt (napaka.txt)
+        uses: actions/download-artifact@v3
+        with:
+          name: test-check-artifact
+
+      - name: Preveri vsebino napaka.txt
+        run: |
+          if grep -q "NAPAKA" napaka.txt; then
+            echo "Napaka: Testna skripta ni bila najdena!"
+            exit 1
+          else
+            echo "Testna skripta OK, nadaljujemo."
+          fi
+
+      - name: Poženi testno skripto (matrica za prevajalnik)
+        strategy:
+          matrix:
+            compiler: [g++]
+        run: |
+          echo "Uporabljam prevajalnik: ${{ matrix.compiler }}"
+          chmod +x run_tests.sh
+          ./run_tests.sh
