@@ -1,15 +1,16 @@
 name: 28589 - Deploy Docker image
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["28589 - Testiranje C++ kode"]
+    types:
+      - completed
 
 jobs:
   deploy:
-    name: Deploy na DockerHub
-    needs: izvedi-teste
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    name: Deploy na DockerHub
 
     steps:
       - name: Kloniraj repozitorij
