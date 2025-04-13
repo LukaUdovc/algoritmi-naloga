@@ -1,0 +1,27 @@
+name: 28589 - Deploy Docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy na DockerHub
+    needs: izvedi-teste
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kloniraj repozitorij
+        uses: actions/checkout@v3
+
+      - name: Prijava v DockerHub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Zgradi Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/algoritmi-naloga:latest .
+
+      - name: Potisni Docker image na DockerHub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/algoritmi-naloga:latest
