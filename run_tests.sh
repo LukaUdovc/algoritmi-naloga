@@ -1,17 +1,17 @@
 #!/bin/bash
 set -e
 
-echo "[CI TEST] Prevajam program vaja1..."
-g++ -o vaja1 ./vaja1/main.cpp
+echo "[CI TEST] Prevajam domacaNal1.cpp..."
+g++ -o domacaNal1 domacaNal1.cpp
 
 echo "[CI TEST] Ustvarjam testni vhod..."
 echo -e "128\n64\n255" > input.txt
 
 echo "[CI TEST] Zaganjam program..."
-./vaja1 input.txt
+./domacaNal1 input.txt
 
 if [ -f out.txt ]; then
-    echo "[CI TEST] OK: izhodna datoteka 'out.txt' obstaja."
+    echo "[CI TEST] OK: 'out.txt' obstaja."
 else
     echo "[CI TEST] Napaka: izhodna datoteka ne obstaja!"
     exit 1
