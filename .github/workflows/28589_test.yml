@@ -34,6 +34,10 @@ jobs:
     needs: preveri-teste
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        compiler: [g++]  # matrica z enim prevajalnikom
+
     steps:
       - name: Kloniraj repozitorij
         uses: actions/checkout@v3
@@ -46,16 +50,13 @@ jobs:
       - name: Preveri vsebino napaka.txt
         run: |
           if grep -q "NAPAKA" napaka.txt; then
-            echo "Napaka: Testna skripta ni bila najdena!"
+            echo "Napaka pri preverjanju testne skripte!"
             exit 1
           else
-            echo "Testna skripta OK, nadaljujemo."
+            echo "Testna skripta je prisotna, nadaljujemo."
           fi
 
-      - name: Poženi testno skripto (matrica za prevajalnik)
-        strategy:
-          matrix:
-            compiler: [g++]
+      - name: Poženi testno skripto
         run: |
           echo "Uporabljam prevajalnik: ${{ matrix.compiler }}"
           chmod +x run_tests.sh
