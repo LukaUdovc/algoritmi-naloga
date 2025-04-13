@@ -2,7 +2,7 @@ name: 28589 - Deploy Docker image
 
 on:
   workflow_run:
-    workflows: ["28589 - Testiranje C++ kode"]
+    workflows: ["28589 - Testiranje C++ kode"]  # TOČNO tako kot v testnem .yml
     types:
       - completed
 
